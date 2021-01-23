@@ -34,7 +34,7 @@ class RecipeService {
 	private $htmlDownloadService;
 
 	public function __construct(
-		?string $UserId, IRootFolder $root, RecipeDb $db, IConfig $config, 
+		?string $UserId, IRootFolder $root, RecipeDb $db, IConfig $config,
 		IL10N $il10n, LoggerInterface $logger, HtmlDownloadService $downloadService) {
 		$this->user_id = $UserId;
 		$this->root = $root;
