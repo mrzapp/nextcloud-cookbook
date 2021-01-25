@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Added
+- Create service class for downloading and extracting JSON
+  [#553](https://github.com/nextcloud/cookbook/pull/553) @christianlupus
+
 ### Changed
 - Using computed property in recipe view
   [#522](https://github.com/nextcloud/cookbook/pull/522/) @seyfeb
@@ -27,6 +31,9 @@
   [#554](https://github.com/nextcloud/cookbook/pull/554) @christianlupus
 - Introduced updating recipe directory to Vuex state, fixes #542
   [#546](https://github.com/nextcloud/cookbook/pull/546/) @seyfeb
+
+### Deprecated
+- Method RecipeService::parseRecipeHtml()
 
 ### Removed
 - Removal of old contoller no longer in use
