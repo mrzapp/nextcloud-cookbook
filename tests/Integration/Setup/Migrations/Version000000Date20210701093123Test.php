@@ -1,7 +1,6 @@
 <?php
 
 namespace tests\Integration\Setup\Migrations;
-// namespace OCA\Cookbook\tests\Integration\Setup\Migrations;
 
 use OCP\IDBConnection;
 use OCP\AppFramework\App;
@@ -23,7 +22,7 @@ class Version000000Date20210701093123Test extends TestCase {
     private $db;
     
     public function setUp(): void {
-        resetEnvironmentToBackup('default', true);
+        resetEnvironmentToBackup('default');
         
         parent::setUp();
         
@@ -40,9 +39,6 @@ class Version000000Date20210701093123Test extends TestCase {
          */
         $schema = $this->container->query(SchemaWrapper::class);
         $this->assertIsObject($schema);
-        
-        print_r($this->db->getQueryBuilder()->select('version')->from('migrations')->where('app=:app')->setParameter('app', 'cookbook')->execute()->fetchAll());
-        runOCCCommand(['migration:status', 'cookbook'], true);
         
         // undo all migrations of cookbook app
         $qb = $this->db->getQueryBuilder();
@@ -62,9 +58,7 @@ class Version000000Date20210701093123Test extends TestCase {
         $schema->performDropTableCalls();
         
         // Reinstall app partially (just before the migration)
-        runOCCCommand(['migration:status', 'cookbook'], true);
         runOCCCommand(['migration:migrate', 'cookbook', '000000Date20210427082010']);
-        runOCCCommand(['migration:status', 'cookbook'], true);
     }
     
     /**
@@ -125,9 +119,7 @@ class Version000000Date20210701093123Test extends TestCase {
         $cursor = $qb->execute();
         $result = $cursor->fetchAll();
         
-        print_r($result);
         $result = array_filter($result, function ($x) use ($current) { return $x < $current; });
-        print_r($result);
         
         $this->assertEquals(count($updatedUsers), count($result));
         $this->assertEquals(sort($updatedUsers), sort($result));
@@ -137,23 +129,23 @@ class Version000000Date20210701093123Test extends TestCase {
     
     public function dataProvider() {
         return [
-//             'case A' => [
-//                 [
-//                     ['alice', 123],
-//                     ['alice', 124],
-//                     ['bob', 125]
-//                 ],
-//                 [],
-//             ],
-//             'case B' => [
-//                 [
-//                     ['alice', 123],
-//                     ['alice', 124],
-//                     ['bob', 124],
-//                     ['bob', 125],
-//                 ],
-//                 [],
-//             ],
+            'case A' => [
+                [
+                    ['alice', 123],
+                    ['alice', 124],
+                    ['bob', 125]
+                ],
+                [],
+            ],
+            'case B' => [
+                [
+                    ['alice', 123],
+                    ['alice', 124],
+                    ['bob', 124],
+                    ['bob', 125],
+                ],
+                [],
+            ],
             'case C' => [
                 [
                     ['alice', 123],
