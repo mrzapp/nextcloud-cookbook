@@ -69,6 +69,7 @@ class Version000000Date20210701093123Test extends TestCase {
     
     /**
      * @dataProvider dataProvider
+     * @runInSeparateProcess
      */
     public function testRedundantEntriesInDB($data, $updatedUsers) {
         // Add dummy data
