@@ -22,43 +22,43 @@ class Version000000Date20210701093123Test extends TestCase {
     private $db;
     
     public function setUp(): void {
-        resetEnvironmentToBackup('default');
+//         resetEnvironmentToBackup('default');
         
         parent::setUp();
         
         $app = new App('cookbook');
-        $this->container = $app->getContainer();
+//         $this->container = $app->getContainer();
         
-        /**
-         * @var IDBConnection $db
-         */
-        $this->db = $this->container->query(IDBConnection::class);
-        $this->assertIsObject($this->db);
-        /**
-         * @var SchemaWrapper $schema
-         */
-        $schema = $this->container->query(SchemaWrapper::class);
-        $this->assertIsObject($schema);
+//         /**
+//          * @var IDBConnection $db
+//          */
+//         $this->db = $this->container->query(IDBConnection::class);
+//         $this->assertIsObject($this->db);
+//         /**
+//          * @var SchemaWrapper $schema
+//          */
+//         $schema = $this->container->query(SchemaWrapper::class);
+//         $this->assertIsObject($schema);
         
         // undo all migrations of cookbook app
-        $qb = $this->db->getQueryBuilder();
-        $numRows = $qb->delete('migrations')
-            ->where('app=:app')
-            ->setParameter('app', 'cookbook')
-            ->execute();
-        $this->assertGreaterThan(0, $numRows);
+//         $qb = $this->db->getQueryBuilder();
+//         $numRows = $qb->delete('migrations')
+//             ->where('app=:app')
+//             ->setParameter('app', 'cookbook')
+//             ->execute();
+//         $this->assertGreaterThan(0, $numRows);
         
-        $schema->dropTable('cookbook_names');
-        $this->assertFalse($schema->hasTable('cookbook_names'));
-        $schema->dropTable('cookbook_categories');
-        $this->assertFalse($schema->hasTable('cookbook_categories'));
-        $schema->dropTable('cookbook_keywords');
-        $this->assertFalse($schema->hasTable('cookbook_keywords'));
+//         $schema->dropTable('cookbook_names');
+//         $this->assertFalse($schema->hasTable('cookbook_names'));
+//         $schema->dropTable('cookbook_categories');
+//         $this->assertFalse($schema->hasTable('cookbook_categories'));
+//         $schema->dropTable('cookbook_keywords');
+//         $this->assertFalse($schema->hasTable('cookbook_keywords'));
         
-        $schema->performDropTableCalls();
+//         $schema->performDropTableCalls();
         
-        // Reinstall app partially (just before the migration)
-        runOCCCommand(['migration:migrate', 'cookbook', '000000Date20210427082010']);
+//         // Reinstall app partially (just before the migration)
+//         runOCCCommand(['migration:migrate', 'cookbook', '000000Date20210427082010']);
     }
     
     /**
@@ -66,70 +66,83 @@ class Version000000Date20210701093123Test extends TestCase {
      * @runInSeparateProcess
      */
     public function testRedundantEntriesInDB($data, $updatedUsers) {
+//         print_r($data); print_r($updatedUsers);
         // Add dummy data
-        $qb = $this->db->getQueryBuilder();
-        $qb->insert('cookbook_names')
-            ->values([
-                'recipe_id' => ':recipe',
-                'user_id' => ':user',
-                'name' => ':name',
-            ]);
-        $qb->setParameter('name', 'name of the recipe');
-        foreach ($data as $d) {
-            $qb->setParameter('user', $d[0]);
-            $qb->setParameter('recipe', $d[1]);
+//         $qb = $this->db->getQueryBuilder();
+//         $qb->insert('cookbook_names')
+//             ->values([
+//                 'recipe_id' => ':recipe',
+//                 'user_id' => ':user',
+//                 'name' => ':name',
+//             ]);
+//         $qb->setParameter('name', 'name of the recipe');
+//         foreach ($data as $d) {
+//             $qb->setParameter('user', $d[0]);
+//             $qb->setParameter('recipe', $d[1]);
             
-            $this->assertEquals(1, $qb->execute());
-        }
+//             $this->assertEquals(1, $qb->execute());
+//         }
         
         // Set configuration values
-        $current = time();
+//         $current = time();
         
-        $qb = $this->db->getQueryBuilder();
-        $qb->insert('preferences')
-            ->values([
-                'userid' => ':user',
-                'appid' => ':appid',
-                'configkey' => ':property',
-                'configvalue' => ':value',
-            ]);
+//         $qb = $this->db->getQueryBuilder();
+//         $qb->insert('preferences')
+//             ->values([
+//                 'userid' => ':user',
+//                 'appid' => ':appid',
+//                 'configkey' => ':property',
+//                 'configvalue' => ':value',
+//             ]);
         
-        $qb->setParameter('value', $current, IQueryBuilder::PARAM_STR);
-        $qb->setParameter('appid', 'cookbook');
-        $qb->setParameter('property', 'last_index_update');
+//         $qb->setParameter('value', $current, IQueryBuilder::PARAM_STR);
+//         $qb->setParameter('appid', 'cookbook');
+//         $qb->setParameter('property', 'last_index_update');
         
-        $users = array_unique(array_map(function ($x) {return $x[0];}, $data));
-        foreach($users as $u){
-            $qb->setParameter('user', $u);
-            $this->assertEquals(1, $qb->execute());
-        }
+//         $users = array_unique(array_map(function ($x) {return $x[0];}, $data));
+//         foreach($users as $u){
+//             $qb->setParameter('user', $u);
+//             $this->assertEquals(1, $qb->execute());
+//         }
         
-        runOCCCommand(['migration:migrate', 'cookbook', '000000Date20210701093123']);
+//         runOCCCommand(['migration:migrate', 'cookbook', '000000Date20210701093123'], true);
+//         echo "D reached\n";
         
-        $qb = $this->db->getQueryBuilder();
-        $qb->select('userid', 'configvalue')
-            ->from('preferences')
-            ->where(
-                'appid = :appid',
-                'configkey = :property'
-                );
-        $qb->setParameter('appid', 'cookbook');
-        $qb->setParameter('property', 'last_index_update');
+//         $qb = $this->db->getQueryBuilder();
+//         $qb->select('userid', 'configvalue')
+//             ->from('preferences')
+//             ->where(
+//                 'appid = :appid',
+//                 'configkey = :property'
+//                 );
+//         $qb->setParameter('appid', 'cookbook');
+//         $qb->setParameter('property', 'last_index_update');
         
-        $cursor = $qb->execute();
-        $result = $cursor->fetchAll();
+//         $cursor = $qb->execute();
+//         $result = $cursor->fetchAll();
+//         $cursor->closeCursor();
         
-        $result = array_filter($result, function ($x) use ($current) { return $x < $current; });
+//         print_r($result);
+//         $result = array_filter($result, function ($x) use ($current) { return $x < $current; });
         
-        $this->assertEquals(count($updatedUsers), count($result));
-        $this->assertEquals(sort($updatedUsers), sort($result));
+//         print_r($result);
+        print_r($updatedUsers);
+        
+//         sort($result);
+        sort($updatedUsers);
+//         print_r($result);
+        print_r($updatedUsers);
+//         var_dump($GLOBALS);
+//         $this->assertEquals($updatedUsers, $result);
+        $this->assertEquals($updatedUsers, []);
+//         $this->assertEquals([], $result);
         
         $this->markTestIncomplete('Not yet implemented');
     }
     
     public function dataProvider() {
         return [
-            'case A' => [
+            'caseA' => [
                 [
                     ['alice', 123],
                     ['alice', 124],
@@ -137,7 +150,7 @@ class Version000000Date20210701093123Test extends TestCase {
                 ],
                 [],
             ],
-            'case B' => [
+            'caseB' => [
                 [
                     ['alice', 123],
                     ['alice', 124],
@@ -146,7 +159,7 @@ class Version000000Date20210701093123Test extends TestCase {
                 ],
                 [],
             ],
-            'case C' => [
+            'caseC' => [
                 [
                     ['alice', 123],
                     ['alice', 124],
