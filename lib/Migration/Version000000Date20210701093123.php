@@ -56,14 +56,14 @@ class Version000000Date20210701093123 extends SimpleMigrationStep {
                 
                 $qb2 = $this->db->getQueryBuilder();
                 $qb2->update('preferences')
-                    ->set('configvalue', '1', IQueryBuilder::PARAM_STR)
+                    ->set('configvalue', $qb->expr()->literal('1', IQueryBuilder::PARAM_STR))
                     ->where(
                         'userid = :user',
                         'appid = :app',
-                        'configkey = :parameter'
+                        'configkey = :property'
                         );
                 $qb2->setParameter('app', 'cookbook');
-                $qb2->setParameter('configkey', 'last_index_update');
+                $qb2->setParameter('property', 'last_index_update');
                 
                 foreach($result as $r) {
                     $qb->setParameter('user', $r['user']);
