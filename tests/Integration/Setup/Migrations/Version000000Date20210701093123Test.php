@@ -120,9 +120,10 @@ class Version000000Date20210701093123Test extends TestCase {
         $result = $cursor->fetchAll();
         
         $result = array_filter($result, function ($x) use ($current) { return $x < $current; });
+        sort($result);
+        sort($updatedUsers);
         
-        $this->assertEquals(count($updatedUsers), count($result));
-        $this->assertEquals(sort($updatedUsers), sort($result));
+        $this->assertEquals($updatedUsers, $result);
         
         $this->markTestIncomplete('Not yet implemented');
     }
