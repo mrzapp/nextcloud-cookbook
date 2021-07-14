@@ -130,7 +130,7 @@ class Version000000Date20210701093123Test extends TestCase {
     
     public function dataProvider() {
         return [
-            'case A' => [
+            'caseA' => [
                 [
                     ['alice', 123],
                     ['alice', 124],
@@ -138,7 +138,7 @@ class Version000000Date20210701093123Test extends TestCase {
                 ],
                 [],
             ],
-            'case B' => [
+            'caseB' => [
                 [
                     ['alice', 123],
                     ['alice', 124],
@@ -147,7 +147,7 @@ class Version000000Date20210701093123Test extends TestCase {
                 ],
                 [],
             ],
-            'case C' => [
+            'caseC' => [
                 [
                     ['alice', 123],
                     ['alice', 124],
